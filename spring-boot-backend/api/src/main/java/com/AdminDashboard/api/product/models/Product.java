@@ -21,7 +21,9 @@ public class Product {
 
     private String name;
     private String price;
+    @Column(name = "isFeatured")
     private boolean isFeatured = false;
+    @Column(name = "isArchived")
     private boolean isArchived = false;
     private Instant createdAt;
     private Instant updatedAt;
@@ -108,7 +110,7 @@ public class Product {
         return isFeatured;
     }
 
-    public void setFeatured(boolean featured) {
+    public void setisFeatured(boolean featured) {
         isFeatured = featured;
     }
 
@@ -116,7 +118,7 @@ public class Product {
         return isArchived;
     }
 
-    public void setArchived(boolean archived) {
+    public void setisArchived(boolean archived) {
         isArchived = archived;
     }
 

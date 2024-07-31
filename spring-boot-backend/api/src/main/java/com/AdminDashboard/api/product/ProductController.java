@@ -1,6 +1,7 @@
 package com.AdminDashboard.api.product;
 
 import com.AdminDashboard.api.product.models.Product;
+import com.AdminDashboard.api.product.models.ProductWithImageColorCategoryAndSize;
 import com.AdminDashboard.api.product.models.ProductWithImageUrl;
 import com.AdminDashboard.api.utils.Utils;
 import org.springframework.http.HttpStatus;
@@ -23,7 +24,7 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Product>> getProducts(@PathVariable String storeId){
+    public ResponseEntity<List<ProductWithImageColorCategoryAndSize>> getProducts(@PathVariable String storeId){
         return new ResponseEntity<>(productService.getProducts(storeId), HttpStatus.OK);
     }
 

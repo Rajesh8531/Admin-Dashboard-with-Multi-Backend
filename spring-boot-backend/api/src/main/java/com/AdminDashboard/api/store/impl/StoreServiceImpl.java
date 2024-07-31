@@ -18,8 +18,8 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public List<Store> getStores() {
-        return storeRepository.findAll();
+    public List<Store> getStores(String userId) {
+        return storeRepository.findAllByUserId(userId);
     }
 
     @Override

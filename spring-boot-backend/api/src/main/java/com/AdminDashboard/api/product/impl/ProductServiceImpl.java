@@ -6,22 +6,23 @@ import com.AdminDashboard.api.color.Color;
 import com.AdminDashboard.api.color.ColorRepository;
 import com.AdminDashboard.api.product.ProductRepository;
 import com.AdminDashboard.api.product.ProductService;
-import com.AdminDashboard.api.product.models.Image;
-import com.AdminDashboard.api.product.models.ImageRepository;
-import com.AdminDashboard.api.product.models.Product;
-import com.AdminDashboard.api.product.models.ProductWithImageUrl;
+import com.AdminDashboard.api.product.models.*;
 import com.AdminDashboard.api.size.Size;
 import com.AdminDashboard.api.size.SizeRepository;
 import com.AdminDashboard.api.store.Store;
 import com.AdminDashboard.api.store.StoreRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService {
+
     ProductRepository productRepository;
     StoreRepository storeRepository;
     CategoryRepository categoryRepository;
@@ -44,8 +45,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> getProducts(String storeId) {
-        return productRepository.getProductsByStoreId(storeId);
+    public List<ProductWithImageColorCategoryAndSize> getProducts(String storeId) {
+        List<Product> products = productRepository.getProductsByStoreId(storeId);
+        return products.stream().map(this::getFullProduct).collect(Collectors.toList());
     }
 
     @Override
@@ -116,6 +118,8 @@ public class ProductServiceImpl implements ProductService {
         }
 
         Product product = this.productWithImageUrlToProduct(productWithImageUrl);
+        product.setisFeatured(productWithImageUrl.isFeatured());
+        product.setisArchived(productWithImageUrl.isArchived());
         product.setId(productId);
         product.setStoreId(storeId);
         product.setSize(size);
@@ -182,8 +186,59 @@ public class ProductServiceImpl implements ProductService {
         product.setSizeId(productWithImageUrl.getSizeId());
         product.setName(productWithImageUrl.getName());
         product.setPrice(productWithImageUrl.getPrice());
-        product.setArchived(productWithImageUrl.isArchived());
-        product.setFeatured(productWithImageUrl.isFeatured());
+        product.setisArchived(productWithImageUrl.isArchived());
+        product.setisFeatured(productWithImageUrl.isFeatured());
         return product;
     }
+
+    private ProductWithImageColorCategoryAndSize getFullProduct(Product product){
+        ProductWithImageColorCategoryAndSize fullProduct = new ProductWithImageColorCategoryAndSize();
+        fullProduct.setArchived(product.isArchived());
+        fullProduct.setFeatured(product.isFeatured());
+        fullProduct.setCategoryId(product.getCategoryId());
+        fullProduct.setStoreId(product.getStoreId());
+        fullProduct.setName(product.getName());
+        fullProduct.setPrice(product.getPrice());
+        fullProduct.setSizeId(product.getSizeId());
+        fullProduct.setColorId(product.getColorId());
+        fullProduct.setUpdatedAt(product.getUpdatedAt());
+        fullProduct.setCreatedAt(product.getCreatedAt());
+        fullProduct.setId(product.getId());
+        fullProduct.setColor(colorToUniqueColor(colorRepository.findById(product.getColorId()).orElse(null)));
+        fullProduct.setSize(sizeToUniqueSize(sizeRepository.findById(product.getSizeId()).orElse(null)));
+        fullProduct.setCategory(categoryToUniqueCategory(categoryRepository.findById(product.getCategoryId()).orElse(null)));
+        return fullProduct;
+    }
+
+    private UniqueColor colorToUniqueColor(Color color){
+        UniqueColor uniqueColor = new UniqueColor();
+        uniqueColor.setCreatedAt(color.getCreatedAt());
+        uniqueColor.setUpdatedAt(color.getUpdatedAt());
+        uniqueColor.setId(color.getId());
+        uniqueColor.setName(color.getName());
+        uniqueColor.setValue(color.getValue());
+        return uniqueColor;
+    }
+
+    private UniqueSize sizeToUniqueSize(Size size){
+        UniqueSize uniqueSize = new UniqueSize();
+        uniqueSize.setCreatedAt(size.getCreatedAt());
+        uniqueSize.setUpdatedAt(size.getUpdatedAt());
+        uniqueSize.setId(size.getId());
+        uniqueSize.setName(size.getName());
+        uniqueSize.setValue(size.getValue());
+        return uniqueSize;
+    }
+
+    private UniqueCategory categoryToUniqueCategory(Category category){
+        UniqueCategory uniqueCategory = new UniqueCategory();
+        uniqueCategory.setCreatedAt(category.getCreatedAt());
+        uniqueCategory.setUpdatedAt(category.getUpdatedAt());
+        uniqueCategory.setId(category.getId());
+        uniqueCategory.setName(category.getName());
+        uniqueCategory.setStoreId(category.getStoreId());
+        uniqueCategory.setBillboardId(category.getBillboardId());
+        return uniqueCategory;
+    }
 }
+

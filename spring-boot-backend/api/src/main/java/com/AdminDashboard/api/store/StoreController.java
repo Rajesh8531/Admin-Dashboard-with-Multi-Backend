@@ -24,8 +24,8 @@ public class StoreController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<Store>> getStores(){
-        return new ResponseEntity<>(storeService.getStores(), HttpStatus.OK);
+    public ResponseEntity<List<Store>> getStores(@RequestParam String userId){
+        return new ResponseEntity<>(storeService.getStores(userId), HttpStatus.OK);
     }
 
     @PostMapping("/")

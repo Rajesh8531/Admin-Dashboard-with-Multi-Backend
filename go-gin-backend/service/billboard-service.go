@@ -41,7 +41,6 @@ func GetBillboards(c *gin.Context) {
 	storeId := c.Param("storeId")
 
 	billboards, _ := db.GetBillboards(" storeId = ? ", storeId)
-	fmt.Println(billboards)
 
 	c.JSON(http.StatusAccepted, billboards)
 }

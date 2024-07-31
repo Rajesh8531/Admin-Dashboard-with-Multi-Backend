@@ -32,7 +32,6 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<CategoryWithBillboardDTO> getCategories(String storeId) {
-        System.out.println("CATEGORIES");
         return categoryRepository.getCategoriesByStoreId(storeId).stream().map(this::getCategoryWithBillboardDTO).collect(Collectors.toList());
     }
 

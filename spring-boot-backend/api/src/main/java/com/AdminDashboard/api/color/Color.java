@@ -100,18 +100,17 @@ public class Color {
 
     @Override
     public String toString() {
-        return "Category{" +
+        return "Color{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
+                ", value='" + value + '\'' +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
+                ", products=" + products +
                 ", store=" + store +
                 ", storeId='" + storeId + '\'' +
-                 +
                 '}';
     }
-
-
 
     public void setStoreId(String storeId) {
         this.storeId = storeId;

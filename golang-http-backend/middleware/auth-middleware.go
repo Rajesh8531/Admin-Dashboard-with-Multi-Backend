@@ -27,7 +27,7 @@ func AuthMiddleware(next http.Handler) http.Handler {
 		claims, _ := utils.DecodeJWT(tokenString)
 
 		var email string = claims["email"].(string)
-		var id string = claims["id"].(string)
+		var id = claims["id"].(string)
 		r.Header.Add("name", email)
 		r.Header.Add("id", id)
 		next.ServeHTTP(w, r)

@@ -24,7 +24,7 @@ func storeController(w http.ResponseWriter, r *http.Request) {
 	_ = utils.ParseJSON(r, &store)
 	store.CreatedAt = time.Now()
 	store.UpdatedAt = time.Now()
-	userId := r.Header.Get("id")
+	var userId = r.Header.Get("id")
 
 	store.UserId, _ = primitive.ObjectIDFromHex(userId)
 	store.ID = primitive.NewObjectID()
@@ -38,7 +38,6 @@ func storeController(w http.ResponseWriter, r *http.Request) {
 		utils.ResponseError(w, http.StatusConflict, fmt.Errorf("error while inserting a store"))
 		return
 	}
-
 	utils.ResponseJSON(w, http.StatusOK, store)
 }
 

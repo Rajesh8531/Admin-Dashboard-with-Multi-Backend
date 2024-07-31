@@ -3,15 +3,26 @@ from store.serializers import ProductSerializer,ImageSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from store.models import Category,Color,Size
+from store.serializers import CategorySerializer,SizeSerializer,ColorSerializer
 
 from store.utils import auth_decorator, generateUUID, helper, isAuthorized
 
 class ProductView(APIView):
     
     def get_products(self,storeId):
-        objects =  Product.objects.all()
+        objects =  Product.objects.all().filter(storeId=storeId)
         data = ProductSerializer(objects,many=True).data
-        return filter(lambda x:x['storeId'] == storeId,data)
+        fullProducts = []
+        for product in data:
+            category = Category.objects.get(id=product.get('categoryId',''))
+            color = Color.objects.get(id=product.get('colorId'))
+            size = Size.objects.get(id=product.get('sizeId'))
+            product['category'] = CategorySerializer(instance=category).data
+            product['color'] = ColorSerializer(instance=color).data
+            product['size'] = SizeSerializer(instance=size).data
+            fullProducts.append(product)
+        return fullProducts
      
     @auth_decorator()     
     def post(self,request,storeId):

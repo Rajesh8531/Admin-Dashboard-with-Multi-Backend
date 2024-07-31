@@ -45,7 +45,6 @@ class OrderSerializer(serializers.ModelSerializer):
         model = Order
         fields = "__all__"
 
-
 class ProductSerializer(serializers.ModelSerializer):
     storeId = serializers.PrimaryKeyRelatedField(queryset=Store.objects.all())
     colorId = serializers.PrimaryKeyRelatedField(queryset=Color.objects.all())
@@ -56,7 +55,7 @@ class ProductSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Product
-        fields = '__all__'        
+        fields = '__all__'     
 
 class ColorSerializer(serializers.ModelSerializer):
     storeId = serializers.PrimaryKeyRelatedField(queryset=Store.objects.all())

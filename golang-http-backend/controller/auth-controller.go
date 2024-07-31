@@ -51,7 +51,7 @@ func SignUp(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	tokenString, err := utils.GenerateJWT(user.Email, user.ID.String())
+	tokenString, err := utils.GenerateJWT(user.Email, user.ID.Hex())
 
 	if err != nil {
 		utils.ResponseError(w, http.StatusConflict, fmt.Errorf("error in jwt token generation"))
@@ -95,7 +95,7 @@ func SignIn(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	tokenString, err := utils.GenerateJWT(existingUser.Email, existingUser.ID.String())
+	tokenString, err := utils.GenerateJWT(existingUser.Email, existingUser.ID.Hex())
 
 	if err != nil {
 		utils.ResponseError(w, http.StatusConflict, fmt.Errorf("error in jwt token generation"))

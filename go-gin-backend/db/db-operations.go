@@ -97,7 +97,7 @@ func GetStore(store *types.FullStoreType, filter string, values ...any) error {
 }
 
 func GetUser(user *types.User, filter string, values ...any) error {
-	query := fmt.Sprintf("SELECT id,name,email,createdAt,updatedAt,password FROM users  %s ", filter)
+	query := fmt.Sprintf("SELECT id,name,email,createdAt,updatedAt,password FROM users WHERE %s ", filter)
 
 	err := DB.QueryRow(query, values...).Scan(&user.ID, &user.Name, &user.Email, &user.CreatedAt, &user.UpdatedAt, &user.Password)
 

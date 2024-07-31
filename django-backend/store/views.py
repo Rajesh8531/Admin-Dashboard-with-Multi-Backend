@@ -23,8 +23,10 @@ class StoreView(APIView):
             return Response(serializer.data,202)
         return Response(serializer.errors,400)
     
+    @auth_decorator()
     def get(self,request:Request):
-        objects = Store.objects.all()
+        userId = request.META.get("userId")
+        objects = Store.objects.all().filter(userId=userId)
         serializer = StoreSerializer(objects,many=True)
         return Response(serializer.data,202)
 

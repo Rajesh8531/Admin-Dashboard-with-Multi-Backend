@@ -8,7 +8,7 @@ import { addAuthMiddleware } from './middleware/auth-middleware'
 
 dotenv.config()
 
-const port = process.env.PORT || 7000
+const port = process.env.PORT || 8000
 
 const corsHandler = cors({
   origin: '*', 

@@ -1,6 +1,7 @@
 package com.AdminDashboard.api.product.models;
 
 import java.time.Instant;
+import java.util.Arrays;
 
 public class ProductWithImageUrl {
     private String id;
@@ -15,6 +16,25 @@ public class ProductWithImageUrl {
     private String categoryId;
     private String sizeId;
     private String colorId;
+
+
+    @Override
+    public String toString() {
+        return "ProductWithImageUrl{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", price='" + price + '\'' +
+                ", isFeatured=" + isFeatured +
+                ", isArchived=" + isArchived +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                ", imageUrl=" + Arrays.toString(imageUrl) +
+                ", storeId='" + storeId + '\'' +
+                ", categoryId='" + categoryId + '\'' +
+                ", sizeId='" + sizeId + '\'' +
+                ", colorId='" + colorId + '\'' +
+                '}';
+    }
 
     public String getId() {
         return id;
@@ -44,7 +64,7 @@ public class ProductWithImageUrl {
         return isFeatured;
     }
 
-    public void setFeatured(boolean featured) {
+    public void setisFeatured(boolean featured) {
         isFeatured = featured;
     }
 
@@ -52,7 +72,7 @@ public class ProductWithImageUrl {
         return isArchived;
     }
 
-    public void setArchived(boolean archived) {
+    public void setisArchived(boolean archived) {
         isArchived = archived;
     }
 

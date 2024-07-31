@@ -75,10 +75,9 @@ func DecodeJWT(tokenString string) (jwt.MapClaims, error) {
 
 func IsAuthorizedForStore(r *http.Request, storeId primitive.ObjectID) bool {
 	var userId = r.Header.Get("id")
-	var store types.Store
-	db.GetStoreById(&store, bson.M{"storeId": storeId})
-
 	UserId, _ := primitive.ObjectIDFromHex(userId)
+	var store types.Store
+	db.GetStoreById(&store, bson.M{"user_id": UserId})
 
 	return UserId == store.UserId
 }

@@ -20,11 +20,12 @@ public class AuthInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response,Object handler) throws Exception {
         String authorizationString = request.getHeader("Authorization");
-        String tokenString = authorizationString.split(" ")[1];
-        if(tokenString == null){
+        if(authorizationString == null){
             request.setAttribute("userId","");
             return true;
         }
+        String tokenString = authorizationString.split(" ")[1];
+
         Algorithm algorithm = Algorithm.HMAC256("secret");
         JWTVerifier jwtVerifier = JWT.require(algorithm).build();
         DecodedJWT jwt = jwtVerifier.verify(tokenString);

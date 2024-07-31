@@ -18,10 +18,9 @@ func SignUp(c *gin.Context) {
 		c.AbortWithStatusJSON(http.StatusConflict, gin.H{"error": "No data found"})
 		return
 	}
-
 	var existingUser types.User
 
-	_ = db.GetUser(&existingUser, "WHERE email = ?", user.Email)
+	_ = db.GetUser(&existingUser, " email = ?", user.Email)
 
 	if existingUser.Email != "" {
 		c.AbortWithStatusJSON(http.StatusConflict, gin.H{"error": "user Already Existing"})
@@ -36,6 +35,7 @@ func SignUp(c *gin.Context) {
 
 	id, err := db.CreateUser(user.Name, user.Email, hashedPassword)
 	if err != nil {
+		fmt.Println(err)
 		c.AbortWithStatusJSON(http.StatusConflict, gin.H{"error": "user Already Existing"})
 		return
 	}
@@ -46,12 +46,12 @@ func SignUp(c *gin.Context) {
 		return
 	}
 	secret := envFile["JWT_SECRET_KEY"]
+
 	tokenString, err := utils.GenerateJWT(user.Email, id.String(), secret)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
-	// c.SetCookie("authentication", tokenString, 3600, "/", "localhost", false, true)
 	c.JSON(http.StatusAccepted, gin.H{"token": tokenString, "name": user.Name, "email": user.Email, "id": id})
 }
 
@@ -66,7 +66,7 @@ func SignIn(c *gin.Context) {
 
 	var existingUser types.User
 
-	if err := db.GetUser(&existingUser, "WHERE email = ? ", user.Email); err != nil {
+	if err := db.GetUser(&existingUser, " email = ? ", user.Email); err != nil {
 		fmt.Print(err)
 		c.AbortWithStatusJSON(http.StatusConflict, gin.H{"error": "Error while fetching the user"})
 		return
