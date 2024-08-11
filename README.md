@@ -20,7 +20,7 @@ This repository is a comprehensive solution for managing administrative tasks, f
 ### **Backends**
 - **Express.js** with **Prisma** (Node.js): RESTful API using Prisma ORM and JWT for authentication.
 - **Node.js**: RESTful API without using any frameworks and ORM.
-- **Go** with `net/http`: Minimalist API for handling requests and routing.
+- **Go** with `net/http` and `GorillaMux`: Minimalist API for handling requests and routing.
 - **Go Gin**: Lightweight API with JWT authentication and routing.
 - **Django**: Python-based backend with Django REST Framework.
 - **Spring Boot**: Java-based backend with robust RESTful services.
