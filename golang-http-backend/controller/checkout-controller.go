@@ -114,7 +114,7 @@ func checkoutCreateController(w http.ResponseWriter, r *http.Request) {
 	// successUrl := fmt.Sprintf("$s/cart?success=1", front_end_url)
 	// cancelUrl := fmt.Sprintf("$s/cart?canceled=1", front_end_url)
 
-	stripe.Key = "sk_test_tR3PYbcVNZZ796tH88S4VQ2u"
+	stripe.Key = ""
 
 	// params := &stripe.CheckoutSessionParams{
 	// 	Mode:                     stripe.String("payment"),
