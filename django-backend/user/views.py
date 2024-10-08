@@ -27,7 +27,7 @@ class UserSignUpView(APIView):
                 }
         serializer = UserSerializer(data=user)
         tokenString = jwt.encode({"id":id,"email":user["email"]},"test",algorithm="HS256")
-        print(tokenString)
+
         if serializer.is_valid():
             serializer.save()
             return Response({"id":id,"name":user["name"],"email":user["email"],"token":tokenString},status=status.HTTP_201_CREATED)
